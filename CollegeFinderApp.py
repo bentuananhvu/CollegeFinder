@@ -168,10 +168,10 @@ def calculate_compatibility(student_input):
     merged_scores["KNN_Normalized"] = 1 - (merged_scores["KnnDistance"] - min_knn_dist) / (max_knn_dist - min_knn_dist)
 
     # Calculate Aggregated Score
-    merged_scores["AggregatedScore"] = round((merged_scores["PCACosine"] + merged_scores["AutoencCosine"] + merged_scores["KNN_Normalized"]) / 3 * 100, 3)
+    merged_scores["CompatibilityScore"] = round((merged_scores["PCACosine"] + merged_scores["AutoencCosine"] + merged_scores["KNN_Normalized"]) / 3 * 100, 3)
 
     # Sort by Aggregated Score
-    merged_scores = merged_scores.sort_values(by="AggregatedScore", ascending=False)
+    merged_scores = merged_scores.sort_values(by="CompatibilityScore", ascending=False)
 
     return merged_scores
 
@@ -219,4 +219,4 @@ student_input = pd.DataFrame({
 if st.button("Show Recommendations"):
     top_universities = calculate_compatibility(student_input)
     st.write("### Top 10 Recommended Universities")
-    st.dataframe(top_universities)
+    st.dataframe(top_universities[['InstitutionName', 'CompatibilityScore']])
