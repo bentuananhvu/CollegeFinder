@@ -48,34 +48,46 @@ college_preprocessed = preprocessor.fit_transform(college_data)
 if isinstance(college_preprocessed, scipy.sparse.spmatrix):
     college_preprocessed = college_preprocessed.toarray()
 
-# Build autoencoder model
-input_dim = college_preprocessed.shape[1]
+# Function to build and train the autoencoder
+@st.cache(allow_output_mutation=True)
+def build_autoencoder(data):
+    input_dim = data.shape[1]
 
-autoencoder = Sequential([
-    Dense(10, activation='relu', input_dim=input_dim),  # Encoding layer
-    Dense(input_dim, activation='sigmoid')  # Decoding layer
-])
+    autoencoder = Sequential([
+        Dense(10, activation='relu', input_dim=input_dim, name="encoding_layer"),  # Encoding layer
+        Dense(input_dim, activation='sigmoid')  # Decoding layer
+    ])
 
-autoencoder.compile(optimizer='adam', loss='mean_squared_error')
-autoencoder.fit(college_preprocessed, college_preprocessed, epochs=50, batch_size=32, verbose=1)
+    autoencoder.compile(optimizer='adam', loss='mean_squared_error')
+    autoencoder.fit(data, data, epochs=50, batch_size=32, verbose=0)
 
-# Generate Encodings
-encoder = Model(inputs=autoencoder.input, outputs=autoencoder.layers[0].output)
-college_encodings = encoder.predict(college_preprocessed)
+    encoder = Model(inputs=autoencoder.input, outputs=autoencoder.get_layer(name="encoding_layer").output)
+    encoded_data = encoder.predict(data)
+    return autoencoder, encoder, encoded_data
 
-# PCA Implementation
-pca = PCA()
-pca.fit(college_preprocessed)
-cumulative_variance = pca.explained_variance_ratio_.cumsum()
-n_components = (cumulative_variance >= 0.95).argmax() + 1
-st.write(f"Number of components to retain 95% variance: {n_components}")
+# Function to apply PCA
+@st.cache(allow_output_mutation=True)
+def apply_pca(data):
+    pca = PCA()
+    pca.fit(data)
+    cumulative_variance = pca.explained_variance_ratio_.cumsum()
+    n_components = (cumulative_variance >= 0.95).argmax() + 1
 
-pca_optimal = PCA(n_components=n_components)
-college_pca = pca_optimal.fit_transform(college_preprocessed)
+    pca_optimal = PCA(n_components=n_components)
+    reduced_data = pca_optimal.fit_transform(data)
+    return pca_optimal, reduced_data
 
-# Define the KNN model
-knn = NearestNeighbors(n_neighbors=len(college_preprocessed), metric='euclidean')
-knn.fit(college_preprocessed)
+# Function to set up KNN model
+@st.cache(allow_output_mutation=True)
+def build_knn(data):
+    knn = NearestNeighbors(n_neighbors=len(data), metric='euclidean')
+    knn.fit(data)
+    return knn
+
+# Train Autoencoder and PCA
+autoencoder, encoder, college_encodings = build_autoencoder(college_preprocessed)
+pca_optimal, college_pca = apply_pca(college_preprocessed)
+knn = build_knn(college_preprocessed)
 
 # Placeholder for student preprocessing and PCA transformation
 def calculate_pca_similarity(student_preprocessed):
