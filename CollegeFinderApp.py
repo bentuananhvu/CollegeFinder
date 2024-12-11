@@ -12,7 +12,7 @@ from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.layers import Input, Dense
 
 # Load data
-@st.cache
+@st.cache_data
 def load_data():
     return pd.read_csv("miced_matching_data.csv")
 
@@ -49,7 +49,7 @@ if isinstance(college_preprocessed, scipy.sparse.spmatrix):
     college_preprocessed = college_preprocessed.toarray()
 
 # Function to build and train the autoencoder
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def build_autoencoder(data):
     input_dim = data.shape[1]
 
@@ -66,7 +66,7 @@ def build_autoencoder(data):
     return autoencoder, encoder, encoded_data
 
 # Function to apply PCA
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def apply_pca(data):
     pca = PCA()
     pca.fit(data)
@@ -78,7 +78,7 @@ def apply_pca(data):
     return pca_optimal, reduced_data
 
 # Function to set up KNN model
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def build_knn(data):
     knn = NearestNeighbors(n_neighbors=len(data), metric='euclidean')
     knn.fit(data)
