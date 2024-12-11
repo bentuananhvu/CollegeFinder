@@ -53,16 +53,18 @@ if isinstance(college_preprocessed, scipy.sparse.spmatrix):
 def build_autoencoder(data):
     input_dim = data.shape[1]
 
-    autoencoder = Sequential([
-        Input(shape=(input_dim,)),  # Specify the input shape
-        Dense(10, activation='relu', name="encoding_layer"),  # Encoding layer
-        Dense(input_dim, activation='sigmoid')  # Decoding layer
-    ])
+    # Define the autoencoder model
+    input_layer = Input(shape=(input_dim,))
+    encoding_layer = Dense(10, activation='relu', name="encoding_layer")(input_layer)
+    decoding_layer = Dense(input_dim, activation='sigmoid')(encoding_layer)
+    autoencoder = Model(inputs=input_layer, outputs=decoding_layer)
 
+    # Compile and train the autoencoder
     autoencoder.compile(optimizer='adam', loss='mean_squared_error')
     autoencoder.fit(data, data, epochs=50, batch_size=32, verbose=0)
 
-    encoder = Model(inputs=autoencoder.input, outputs=autoencoder.get_layer(name="encoding_layer").output)
+    # Extract the encoder model
+    encoder = Model(inputs=input_layer, outputs=encoding_layer)
     encoded_data = encoder.predict(data)
     return autoencoder, encoder, encoded_data
 
