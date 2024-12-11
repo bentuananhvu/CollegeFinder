@@ -77,8 +77,6 @@ def build_autoencoder(data):
 
     return autoencoder, encoder, encoded_data
 
-
-
 # Function to apply PCA
 @st.cache_resource
 def apply_pca(data):
