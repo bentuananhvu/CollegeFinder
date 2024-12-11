@@ -182,7 +182,7 @@ st.write("Provide your details below to see the top 10 recommended universities 
 # Inputs from the user
 state_code = st.selectbox("State Code:", options=["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], index=20)
 control = st.selectbox("Control (1 = Public, 2 = Private):", options=["1", "2"], index=1)
-size = st.slider("University Size (1 = <1,000, 2 = 1,000-4,999, 3 = 5,000-9,999, 4 = 10,000+):", 1, 4, 3)
+size = st.slider("University Size (1 = <1,000, 2 = 1,000-4,999, 3 = 5,000-9,999, 4 = 10,000-19,999, 5 = 20,000+):", 1, 5, 3)
 selectivity = st.slider("Selectivity (1 = Least Selective, 5 = Most Selective):", 1, 5, 4)
 student_faculty_ratio_bin = st.slider("Student-Faculty Ratio Bin (1 = Low, 5 = High):", 1, 5, 2)
 test_optional = st.radio("Test Optional (1 = Yes, 0 = No):", options=[1, 0], index=0)
