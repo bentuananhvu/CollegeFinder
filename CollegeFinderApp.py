@@ -177,13 +177,13 @@ def calculate_compatibility(student_input):
 
 # Streamlit app
 st.title("College Finder Application Demo")
-st.write("Provide your details below to see the top 10 recommended universities based on your profile.")
+st.write("Provide your details below to see the top 20 recommended universities based on your profile.")
 
 # Inputs from the user
 state_code = st.selectbox("State Code:", options=["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", 
                                                   "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", 
                                                   "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", 
-                                                  "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], index=21)
+                                                  "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], index=20)
 control = st.selectbox("Control (1 = Public, 2 = Private):", options=["1", "2"], index=1)
 size = st.slider("University Size (1 = <1,000, 2 = 1,000-4,999, 3 = 5,000-9,999, 4 = 10,000-19,999, 5 = 20,000+):", 1, 5, 3)
 selectivity = st.slider("Selectivity (1 = Least Selective, 5 = Most Selective):", 1, 5, 4)
@@ -221,5 +221,5 @@ student_input = pd.DataFrame({
 # Calculate compatibility scores
 if st.button("Show Recommendations"):
     top_universities = calculate_compatibility(student_input)
-    st.write("### Top 10 Recommended Universities")
-    st.dataframe(top_universities[['InstitutionName', 'CompatibilityScore']])
+    st.write("### Top 20 Recommended Universities")
+    st.dataframe(top_universities[['InstitutionName', 'CompatibilityScore']].head(20)
