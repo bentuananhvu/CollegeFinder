@@ -17,6 +17,10 @@ def load_data():
     return pd.read_csv("miced_matching_data.csv")
 
 college_data = load_data()
+college_data.columns = ['InstitutionName', 'StateCode', 'Control', 'Size', 'Selectivity',
+       'StudentFacultyRatioBin', 'TestOptional', 'SATVRMID', 'SATMTMID',
+       'ACTENMID', 'ACTMTMID', 'Tuition', 'LivingCost', 'CrimeRate',
+       'Diversity', 'Population']
 
 # Define preprocessing
 num_cols = ["Size", "Selectivity", "StudentFacultyRatioBin", "SATVRMID", "SATMTMID", "ACTENMID", "ACTMTMID", "Tuition", "LivingCost", "CrimeRate", "Diversity", "Population"]
