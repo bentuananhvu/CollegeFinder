@@ -171,7 +171,7 @@ def calculate_compatibility(student_input):
     merged_scores["CompatibilityScore"] = round((merged_scores["PCACosine"] + merged_scores["AutoencCosine"] + merged_scores["KNN_Normalized"]) / 3 * 100, 3)
 
     # Sort by Aggregated Score
-    merged_scores = merged_scores.sort_values(by="CompatibilityScore", ascending=False)
+    merged_scores = merged_scores.sort_values(by="CompatibilityScore", ascending=False).reset_index(drop=True)
 
     return merged_scores
 
