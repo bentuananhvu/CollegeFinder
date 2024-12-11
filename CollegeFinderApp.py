@@ -63,10 +63,14 @@ def build_autoencoder(data):
     autoencoder.compile(optimizer='adam', loss='mean_squared_error')
     autoencoder.fit(data, data, epochs=50, batch_size=32, verbose=0)
 
-    # Extract the encoder model
+    # Use the same input layer and encoding layer to define the encoder model
     encoder = Model(inputs=input_layer, outputs=encoding_layer)
+
+    # Generate encoded data using the encoder model
     encoded_data = encoder.predict(data)
+
     return autoencoder, encoder, encoded_data
+
 
 # Function to apply PCA
 @st.cache_resource
