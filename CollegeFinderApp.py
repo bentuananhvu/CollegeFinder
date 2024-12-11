@@ -222,4 +222,4 @@ student_input = pd.DataFrame({
 if st.button("Show Recommendations"):
     top_universities = calculate_compatibility(student_input)
     st.write("### Top 20 Recommended Universities")
-    st.dataframe(top_universities[['InstitutionName', 'CompatibilityScore']].head(20)
+    st.dataframe(top_universities[['InstitutionName', 'CompatibilityScore']].head(20))
