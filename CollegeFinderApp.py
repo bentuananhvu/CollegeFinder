@@ -54,7 +54,8 @@ def build_autoencoder(data):
     input_dim = data.shape[1]
 
     autoencoder = Sequential([
-        Dense(10, activation='relu', input_dim=input_dim, name="encoding_layer"),  # Encoding layer
+        Input(shape=(input_dim,)),  # Specify the input shape
+        Dense(10, activation='relu', name="encoding_layer"),  # Encoding layer
         Dense(input_dim, activation='sigmoid')  # Decoding layer
     ])
 
