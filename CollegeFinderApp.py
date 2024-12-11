@@ -180,7 +180,10 @@ st.title("College Finder Application Demo")
 st.write("Provide your details below to see the top 10 recommended universities based on your profile.")
 
 # Inputs from the user
-state_code = st.selectbox("State Code:", options=["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], index=20)
+state_code = st.selectbox("State Code:", options=["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", 
+                                                  "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", 
+                                                  "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", 
+                                                  "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"], index=21)
 control = st.selectbox("Control (1 = Public, 2 = Private):", options=["1", "2"], index=1)
 size = st.slider("University Size (1 = <1,000, 2 = 1,000-4,999, 3 = 5,000-9,999, 4 = 10,000-19,999, 5 = 20,000+):", 1, 5, 3)
 selectivity = st.slider("Selectivity (1 = Least Selective, 5 = Most Selective):", 1, 5, 4)
@@ -190,11 +193,11 @@ sat_vr_mid = st.slider("SAT English (200-800):", 200, 800, 650)
 sat_mt_mid = st.slider("SAT Math (200-800):", 200, 800, 677)
 act_en_mid = st.slider("ACT English (1-36):", 1, 36, 29)
 act_mt_mid = st.slider("ACT Math (1-36):", 1, 36, 31)
-tuition = st.slider("Tuition Bin (1 = Least Expensive, 5 = Most Expensive):", 1, 5, 5)
-living_cost = st.slider("Living Cost Bin (1 = Lowest, 5 = Highest):", 1, 5, 3)
-crime_rate = st.slider("Crime Rate Bin (1 = Lowest, 5 = Highest):", 1, 5, 4)
-diversity = st.slider("Diversity Index Bin (1 = Lowest, 5 = Highest):", 1, 5, 4)
-population = st.slider("Population Bin (1 = Lowest, 5 = Highest):", 1, 5, 2)
+tuition = st.slider("Tuition (1 = Least Expensive, 5 = Most Expensive):", 1, 5, 5)
+living_cost = st.slider("Living Cost (1 = Lowest, 5 = Highest):", 1, 5, 3)
+diversity = st.slider("Diversity Index (1 = Lowest, 5 = Highest):", 1, 5, 4)
+crime_rate = st.slider("Crime Rate (1 = Lowest, 5 = Highest):", 1, 5, 4)
+population = st.slider("Population (1 = Lowest, 5 = Highest):", 1, 5, 2)
 
 # Aggregating student inputs
 student_input = pd.DataFrame({
