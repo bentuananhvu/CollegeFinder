@@ -53,23 +53,30 @@ if isinstance(college_preprocessed, scipy.sparse.spmatrix):
 def build_autoencoder(data):
     input_dim = data.shape[1]
 
-    # Define the autoencoder model
+    # Define the input layer
     input_layer = Input(shape=(input_dim,))
+
+    # Define the encoding and decoding layers
     encoding_layer = Dense(10, activation='relu', name="encoding_layer")(input_layer)
     decoding_layer = Dense(input_dim, activation='sigmoid')(encoding_layer)
+
+    # Define the autoencoder model
     autoencoder = Model(inputs=input_layer, outputs=decoding_layer)
 
     # Compile and train the autoencoder
     autoencoder.compile(optimizer='adam', loss='mean_squared_error')
     autoencoder.fit(data, data, epochs=50, batch_size=32, verbose=0)
 
-    # Use the same input layer and encoding layer to define the encoder model
-    encoder = Model(inputs=input_layer, outputs=encoding_layer)
+    # Define the encoder model explicitly (independent of autoencoder)
+    encoder_input = Input(shape=(input_dim,))
+    encoder_output = autoencoder.get_layer("encoding_layer")(encoder_input)
+    encoder = Model(inputs=encoder_input, outputs=encoder_output)
 
     # Generate encoded data using the encoder model
     encoded_data = encoder.predict(data)
 
     return autoencoder, encoder, encoded_data
+
 
 
 # Function to apply PCA
